@@ -14,9 +14,10 @@ android {
     compileSdkVersion 26
     buildToolsVersion "26.0.3"
 
+    flavorDimensions "versionCode"
     defaultConfig {
         applicationId "com.udacity.gradle.builditbigger"
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
@@ -29,6 +30,14 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    productFlavors {
+        paid {
+
+        }
+        free {
+
         }
     }
 }
@@ -47,4 +56,6 @@ dependencies {
     })
 
     testImplementation 'junit:junit:4.12'
+    compile project(path: ':jmodule')
+    compile project(path: ':amodule')
 }
