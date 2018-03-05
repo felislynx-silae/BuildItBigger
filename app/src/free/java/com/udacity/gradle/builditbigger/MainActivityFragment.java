@@ -14,10 +14,6 @@ import com.google.android.gms.ads.AdView;
 import pl.fream.evryplace.androidmodule.JokeActivity;
 import pl.fream.evryplace.jmodule.JModule;
 
-
-/**
- * A placeholder fragment containing a simple view.
- */
 public class MainActivityFragment extends Fragment {
 
     public MainActivityFragment() {
@@ -49,5 +45,19 @@ public class MainActivityFragment extends Fragment {
         Intent intent = new Intent(getActivity(), JokeActivity.class);
         intent.putExtra(JokeActivity.EXTRA_JOKE, module.provideJoke());
         getActivity().startActivity(intent);
+    }
+
+    public void tellJokeAsync(View view) {
+        EndpointAsyncTask task = new EndpointAsyncTask(new EndpointAsyncTask.EndpointCallback() {
+            @Override
+            public void onStringFetched(String result) {
+                if (result != null) {
+                    Intent intent = new Intent(getActivity(), JokeActivity.class);
+                    intent.putExtra(JokeActivity.EXTRA_JOKE, result);
+                    getActivity().startActivity(intent);
+                }
+            }
+        });
+        task.execute();
     }
 }

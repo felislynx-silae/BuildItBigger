@@ -15,7 +15,7 @@ import java.io.IOException;
 /**
  * Created by lynx on 03/03/18.
  */
-class EndpointAsyncTask extends AsyncTask<Void, Void, String> {
+public class EndpointAsyncTask extends AsyncTask<Void, Void, String> {
     private static MyApi myApiService = null;
     private EndpointCallback callback;
 
