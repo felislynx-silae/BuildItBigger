@@ -11,7 +11,7 @@ buildscript {
 }
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 27
     buildToolsVersion "26.0.3"
 
     flavorDimensions "versionCode"
@@ -26,6 +26,12 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
+    testOptions {
+        unitTests.returnDefaultValues = true
+        reportDir = "$project.buildDir/reports/report"
+        resultsDir = "$project.buildDir/reports/result"
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -37,25 +43,65 @@ android {
 
         }
         free {
-
+            dependencies {
+                implementation 'com.google.android.gms:play-services-ads:11.8.0'
+            }
         }
+    }
+    lintOptions {
+        abortOnError false
     }
 }
 
 dependencies {
+    compile project(path: ':jmodule')
+    compile project(path: ':amodule')
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     endpointsServer project(path: ':backend', configuration: 'endpoints')
-    implementation 'com.android.support:appcompat-v7:26.1.0'
-    implementation 'com.google.android.gms:play-services-ads:11.8.0'
+    implementation 'com.android.support:appcompat-v7:27.1.0'
     implementation 'com.google.api-client:google-api-client:1.23.0'
     implementation 'com.google.http-client:google-http-client-android:1.23.0'
     implementation 'com.google.code.findbugs:jsr305:3.0.1'
 
-    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
+    testImplementation('junit:junit:4.12', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-
-    testImplementation 'junit:junit:4.12'
-    compile project(path: ':jmodule')
-    compile project(path: ':amodule')
+    testImplementation('org.mockito:mockito-core:2.8.47', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    androidTestImplementation 'com.android.support:support-annotations:27.1.0'
+    androidTestImplementation('org.mockito:mockito-android:2.8.47', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    androidTestImplementation('com.android.support.test:runner:1.0', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    androidTestImplementation('com.android.support.test:rules:1.0', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    androidTestImplementation('com.android.support.test.uiautomator:uiautomator-v18:2.1.3', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.0', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    androidTestImplementation('com.android.support.test.espresso:espresso-intents:3.0.0', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    androidTestImplementation('com.android.support.test.espresso:espresso-contrib:3.0.0', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+        exclude group: 'com.android.support', module: 'appcompat-v7'
+        exclude group: 'com.android.support', module: 'support-v4'
+        exclude group: 'com.android.support', module: 'design'
+        exclude group: 'com.android.support', module: 'recyclerview-v7'
+    })
+    androidTestImplementation('com.android.support.test.espresso:espresso-idling-resource:3.0.1', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    androidTestImplementation('com.android.support.test.espresso:espresso-accessibility:3.0.1', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    androidTestImplementation('com.android.support.test.espresso.idling:idling-concurrent:3.0.1', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
 }

@@ -2,8 +2,6 @@ package com.udacity.gradle.builditbigger;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
-import android.util.Pair;
 import android.widget.Toast;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
@@ -17,13 +15,17 @@ import java.io.IOException;
 /**
  * Created by lynx on 03/03/18.
  */
-class EndpointAsyncTask extends AsyncTask<Pair<Context, String>, Void, String> {
+class EndpointAsyncTask extends AsyncTask<Void, Void, String> {
     private static MyApi myApiService = null;
-    private Context context;
+    private EndpointCallback callback;
+
+    public EndpointAsyncTask(EndpointCallback callback) {
+        this.callback = callback;
+    }
 
     @Override
-    protected String doInBackground(Pair<Context, String>... params) {
-        if(myApiService == null) {  // Only do this once
+    protected String doInBackground(Void... params) {
+        if (myApiService == null) {  // Only do this once
             MyApi.Builder builder = new MyApi.Builder(AndroidHttp.newCompatibleTransport(),
                     new AndroidJsonFactory(), null)
                     // options for running against local devappserver
@@ -33,7 +35,7 @@ class EndpointAsyncTask extends AsyncTask<Pair<Context, String>, Void, String> {
                     .setGoogleClientRequestInitializer(new GoogleClientRequestInitializer() {
                         @Override
                         public void initialize(AbstractGoogleClientRequest<?> abstractGoogleClientRequest) throws IOException {
-                            abstractGoogleClientRequest.setDisableGZipContent(true);
+                            //abstractGoogleClientRequest.setDisableGZipContent(true);
                         }
                     });
             // end options for devappserver
@@ -41,11 +43,8 @@ class EndpointAsyncTask extends AsyncTask<Pair<Context, String>, Void, String> {
             myApiService = builder.build();
         }
 
-        context = params[0].first;
-        String name = params[0].second;
-
         try {
-            return myApiService.sayHi(name).execute().getData();
+            return myApiService.tellJoke().execute().getJoke();
         } catch (IOException e) {
             return e.getMessage();
         }
@@ -53,7 +52,12 @@ class EndpointAsyncTask extends AsyncTask<Pair<Context, String>, Void, String> {
 
     @Override
     protected void onPostExecute(String result) {
-        Log.d("BARTEK","RESULT "+result);
-        Toast.makeText(context, result, Toast.LENGTH_LONG).show();
+        if (callback != null) {
+            callback.onStringFetched(result);
+        }
+    }
+
+    public interface EndpointCallback {
+        public void onStringFetched(String result);
     }
 }

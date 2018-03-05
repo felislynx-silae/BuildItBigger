@@ -1,22 +1,26 @@
 package com.udacity.gradle.builditbigger;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 
 public class MainActivity extends AppCompatActivity {
-
+    public String joke = "";
+    EndpointAsyncTask.EndpointCallback callback = new EndpointAsyncTask.EndpointCallback() {
+        @Override
+        public void onStringFetched(String result) {
+            joke = result;
+            Toast.makeText(MainActivity.this,result,Toast.LENGTH_LONG).show();
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        new EndpointAsyncTask().execute(new Pair<Context, String>(this, "Manfred"));
+        new EndpointAsyncTask(callback).execute();
     }
 
 
