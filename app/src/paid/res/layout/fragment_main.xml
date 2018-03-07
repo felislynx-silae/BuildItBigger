@@ -20,7 +20,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/instructions_text_view"
-        android:onClick="tellJoke"
         android:text="@string/joke_button_1" />
 
     <Button
@@ -28,7 +27,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tell_joke_1"
-        android:onClick="tellJokeActivity"
         android:text="@string/joke_button_2" />
 
     <Button
@@ -36,6 +34,5 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tell_joke_2"
-        android:onClick="tellJokeAsync"
         android:text="@string/joke_button_3" />
 </RelativeLayout>

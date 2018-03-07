@@ -1,17 +1,16 @@
 package pl.fream.evryplace.androidmodule;
 
 import android.app.Application;
-import android.support.test.runner.AndroidJUnit4;
 import android.test.ApplicationTestCase;
 import android.text.TextUtils;
 
 import com.udacity.gradle.builditbigger.EndpointAsyncTask;
 
-import org.junit.runner.RunWith;
+
+import org.junit.Test;
 
 import java.util.concurrent.CountDownLatch;
 
-@RunWith(AndroidJUnit4.class)
 public class AsyncInstrumentedTest extends ApplicationTestCase<Application> {
 
     String mResponse = null;
@@ -31,6 +30,7 @@ public class AsyncInstrumentedTest extends ApplicationTestCase<Application> {
         signal.countDown();
     }
 
+    @Test
     public void testTask() throws InterruptedException {
         EndpointAsyncTask task = new EndpointAsyncTask(new EndpointAsyncTask.EndpointCallback() {
             @Override
